@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("References")]
     public CharacterController controller;
     public Transform groundCheck;
     public LayerMask groundLayer;
+    public Animator animator;
 
     [Header("Settings")]
     [SerializeField] float speed = 15f;
@@ -33,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
         dir = transform.right * x + transform.forward * z;
 
         controller.Move(dir * speed * Time.deltaTime);
+
+        animator.SetFloat("speed", Mathf.Abs(x) + Mathf.Abs(z)); // make transition from "idle" to "running" animation
 
     }
     private void Jumping()
