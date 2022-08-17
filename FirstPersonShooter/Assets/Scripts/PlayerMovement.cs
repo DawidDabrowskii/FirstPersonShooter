@@ -20,7 +20,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
 
 
-
     private void Update()
     {
         BasicMovement();

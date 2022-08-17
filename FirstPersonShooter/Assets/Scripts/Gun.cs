@@ -10,6 +10,12 @@ public class Gun : MonoBehaviour
     public GameObject impactEffect;
     public AudioSource rifleFireSound;
     public Animator animator;
+    public GameObject damageToObject;
+
+    [Header("vsMaterials")]
+    [SerializeField] bool vsMetal;
+    [SerializeField] bool vsShield;
+    [SerializeField] bool vsEnemy;
 
     [Header("Attributes")]
     [SerializeField] float range = 20f;
@@ -44,7 +50,7 @@ public class Gun : MonoBehaviour
 
     private void Update()
     {
-        if(currentAmmo ==0 && magazineSize == 0 )
+        if (currentAmmo == 0 && magazineSize == 0)
         {
             animator.SetBool("isShooting", false);
             return;
@@ -61,7 +67,7 @@ public class Gun : MonoBehaviour
             Fire();
         }
 
-        if(currentAmmo == 0 && magazineSize > 0 && !isReloading)
+        if (currentAmmo == 0 && magazineSize > 0 && !isReloading)
         {
             StartCoroutine(Reload());
         }
@@ -78,12 +84,33 @@ public class Gun : MonoBehaviour
             Quaternion impactRotation = Quaternion.LookRotation(hit.normal);
             GameObject impact = Instantiate(impactEffect, hit.point, impactRotation);
             impact.transform.parent = hit.transform; // bulletEffect becomes child of the objects it hits
-            
-            Destroy(impact, 2f);
+
+            Destroy(impact, 0.2f);
             rifleFireSound.Play();
             muzzleFlush.Play();
 
             currentAmmo--;
+            
+            // spawning new Shield on collision with 'hit'
+            if (hit.collider.tag == "Shield" && vsShield ==true)
+            {
+                damageToObject.transform.position = new Vector3(Random.Range(0, 10), Random.Range(9, 15), Random.Range(45, 55));
+            }
+
+            // destroying Barrels
+            if (hit.collider.tag == "Barrel" && vsMetal == true)
+            {
+               Destroy(hit.collider.gameObject,1f);
+            }
+            // destroying Enemies
+            if (hit.collider.tag == "Enemy" && vsEnemy == true)
+            {
+                Destroy(hit.collider.gameObject, 0.5f);
+            }
+            if (hit.collider.tag == "AllWeapons")
+            {
+                Destroy(hit.collider.gameObject, 0.2f);
+            }
         }
     }
     IEnumerator Reload()
@@ -106,4 +133,3 @@ public class Gun : MonoBehaviour
         isReloading = false;
     }
 }
-

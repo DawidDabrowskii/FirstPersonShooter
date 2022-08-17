@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - RifleEnemy
+  - Shield
+  - Barrel
+  - Enemy
+  - Ball
+  - AllWeapons
   layers:
   - Default
   - TransparentFX
