@@ -11,6 +11,7 @@ public class Gun : MonoBehaviour
     public AudioSource rifleFireSound;
     public Animator animator;
     public GameObject damageToObject;
+    public ParticleSystem explodeEffect;
 
     [Header("vsMaterials")]
     [SerializeField] bool vsMetal;
@@ -67,7 +68,7 @@ public class Gun : MonoBehaviour
             Fire();
         }
 
-        if (currentAmmo == 0 && magazineSize > 0 && !isReloading)
+        if (currentAmmo == 0 && magazineSize > 0 && !isReloading )
         {
             StartCoroutine(Reload());
         }
@@ -100,7 +101,8 @@ public class Gun : MonoBehaviour
             // destroying Barrels
             if (hit.collider.tag == "Barrel" && vsMetal == true)
             {
-               Destroy(hit.collider.gameObject,1f);
+                Destroy(hit.collider.gameObject,1f);
+
             }
             // destroying Enemies
             if (hit.collider.tag == "Enemy" && vsEnemy == true)

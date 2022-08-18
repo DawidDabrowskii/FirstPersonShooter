@@ -11,6 +11,10 @@ public class WaypointFollower : MonoBehaviour
 
     private void Update()
     {
+        WayPoint();
+    }
+    private void WayPoint () // waypoint logic
+    {
         if (Vector3.Distance(transform.position, waypoints[currentWaypointIndex].transform.position) < 0.1f)
         {
             currentWaypointIndex++;
